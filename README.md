@@ -3,7 +3,7 @@
 This repository is code of our paper *Machine vision-assisted identification of the lung adenocarcinoma category and high-risk tumor area based on CT images*.
 
 ## Datasets
-The original datasets including metadata files used in the paper can be found in the `./Datasets` folder.
+The original datasets including metadata files used in the paper can be found in the website https://osf.io/5aqe4/.
 
 ## Codes
 
