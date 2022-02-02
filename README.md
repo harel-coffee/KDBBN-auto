@@ -1,4 +1,5 @@
 # KDBBN
+[![DOI](https://zenodo.org/badge/{454431366}.svg)](https://zenodo.org/badge/latestdoi/{454431366})
 ## Overview
 This repository is code of our paper *Machine vision-assisted identification of the lung adenocarcinoma category and high-risk tumor area based on CT images*.
 
