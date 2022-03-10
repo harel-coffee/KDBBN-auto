@@ -18,7 +18,7 @@ In `./lung_code/preprocessing` folder, `contour.py` is the SROI extractor, `back
 `./lung_code/Implement_concat.py` when TRAIN=True, it trains the whole framework, when TRAIN=False, it predicts. The weight can be finetuned or dynamically weighted. `./lung_code/cam.py` or `apply_gradcam.py` provides the codes of the heatmap generated through CAM or GRADCAM. `./lung_code/KD.py` shows the knowledge distillation procedure.
 
 ## Citation
-If you want to use our data or codes for academic use, please cite our paper as
+If you want to use our data or codes for academic use, please cite our paper as <br/>
 Chen, L., Qi, H., Lu, D., Zhai, J., Cai, K., Wang, L., Liang, G., &amp; Zhang, Z. (2022). Machine vision-assisted identification of the lung adenocarcinoma category and high-risk tumor area based on CT images. Patterns, 100464. https://doi.org/10.1016/j.patter.2022.100464 
 
 ## License
