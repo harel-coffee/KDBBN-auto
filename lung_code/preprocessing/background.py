@@ -14,23 +14,19 @@ def inverse(img):
     return iTmp
 
 def exactmask(src):
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 10))  # 矩形结构:MORPH_RECT
-    kernel1 = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))  # 椭圆结构:MORPH_ELLIPSE
-    img = cv2.erode(src, kernel)  # 腐蚀
-    img = cv2.dilate(img, kernel1)  # 膨胀
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 10))  
+    kernel1 = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))  
+    img = cv2.erode(src, kernel)  
+    img = cv2.dilate(img, kernel1) 
     #mask = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY, 25, 10)
     e_mask = custom_threshold(img)
     return e_mask, img
 
 def outmaxmask(e_mask):
     img = cv2.cvtColor(e_mask, cv2.COLOR_GRAY2BGR)
-    # threshold 函数对图像进行二化值处理，由于处理后图像对原图像有所变化，因此img.copy()生成新的图像，cv2.THRESH_BINARY是二化值
+    
     ret, thresh = cv2.threshold(cv2.cvtColor(img.copy(), cv2.COLOR_BGR2GRAY), 127, 255, cv2.THRESH_BINARY)
-    # findContours函数查找图像里的图形轮廓
-    # 函数参数thresh是图像对象
-    # 层次类型，参数cv2.RETR_EXTERNAL是获取最外层轮廓，cv2.RETR_TREE是获取轮廓的整体结构
-    # 轮廓逼近方法
-    # 输出的返回值，image是原图像、contours是图像的轮廓、hier是层次类型
+    
     contours, hier = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     c_max = []
@@ -74,13 +70,9 @@ def change_inwhite(src):
 
     img = cv2.cvtColor(binary, cv2.COLOR_GRAY2BGR)
 
-    # threshold 函数对图像进行二化值处理，由于处理后图像对原图像有所变化，因此img.copy()生成新的图像，cv2.THRESH_BINARY是二化值
+   
     ret, thresh = cv2.threshold(cv2.cvtColor(img.copy(), cv2.COLOR_BGR2GRAY), 127, 255, cv2.THRESH_BINARY)
-    # findContours函数查找图像里的图形轮廓
-    # 函数参数thresh是图像对象
-    # 层次类型，参数cv2.RETR_EXTERNAL是获取最外层轮廓，cv2.RETR_TREE是获取轮廓的整体结构
-    # 轮廓逼近方法
-    # 输出的返回值，image是原图像、contours是图像的轮廓、hier是层次类型
+
     contours, hier = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     cv2.drawContours(img, contours, -1, (255, 255, 55), 5)
@@ -123,8 +115,8 @@ def change_special(src, masko):
     change = cv2.bitwise_or(img_b, src)
     return change
 
-data_dir = '/Users/liuyin/Downloads/predata/ROI/blackROI'
-back_dir = '/Users/liuyin/Downloads/predata/ROI/blackROIinwhite'
+data_dir2 = '/Users/liuyin/Downloads/predata/ROI/black'
+data_dir3 = '/Users/liuyin/Downloads/predata/ROI/white'
 '''
 src = cv2.imread('back5.jpg', cv2.IMREAD_GRAYSCALE)
 maske, _ = exactmask(src)
