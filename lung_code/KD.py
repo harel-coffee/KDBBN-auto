@@ -127,9 +127,12 @@ class unlabeled_KD(tf.keras.Model):
 
 if __name__ == "__main__":
 
-    x1,y1 = read_image(r"C:\Users\sdscit\Desktop\all\IAC","IAC")
-    x2,y2 = read_image(r"C:\Users\sdscit\Desktop\all\MIA","MIA")
-    x3,y3 = read_image(r"C:\Users\sdscit\Desktop\all\AIS","AIS")
+    valpath = './Dataset2'
+    unpath = './Dataset4'
+    Tmodelpath = 'C:\Users\sdscit\Desktop\ct_imgs\best_model\model1.hdf5'
+    x1,y1 = read_image(os.path.join(valpath, 'IAC'), "IAC")
+    x2,y2 = read_image(os.path.join(valpath, 'MIA'), "MIA")
+    x3,y3 = read_image(os.path.join(valpath, 'AIS'), "AIS")
     x1_train, x1_test, y1_train, y1_test = train_test_split(x1, y1, test_size=0.3, random_state=20)
     x2_train, x2_test, y2_train, y2_test = train_test_split(x2, y2, test_size=0.3, random_state=20)
     x3_train, x3_test, y3_train, y3_test = train_test_split(x3, y3, test_size=0.3, random_state=20)
@@ -138,12 +141,12 @@ if __name__ == "__main__":
     x_test = np.concatenate((x1_test,x2_test,x3_test))
     y_test  = np.concatenate((y1_test,y2_test,y3_test))
 
-    un_x = read_image(r"C:\Users\sdscit\Desktop\Dataset4", "")
+    un_x = read_image(unpath, "")
     un_train, un_test = train_test_split(un_x, test_size=0.3, random_state=20)
 
 
     teacher_model = generate_model()
-    teacher_model = teacher_model.load_model(os.path.join(r'C:\Users\sdscit\Desktop\ct_imgs\best_model'))
+    teacher_model = teacher_model.load_model(Tmodelpath)
 
     model1 = labeled_KD(teacher_model, generate_model())
     optimizer = tf.keras.optimizers.Adam(learning_rate=0.01)
