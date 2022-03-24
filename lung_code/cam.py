@@ -12,7 +12,9 @@ from custom_layers.scale_layer import Scale
 import keras.backend as K
 os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
 
-label_dict = {"infil":0,"micro":1,"situ":2}
+label_dict = {"IAC":0,"MIA":1,"AIS":2}
+inputpath = './re'
+outputpath = './cam'
 def read_image(path,label_name):
         img_path = os.listdir(path)
         data = []
@@ -23,10 +25,10 @@ def read_image(path,label_name):
             data.append(img)
             y = np.append(y,label_dict[label_name])
         return np.array(data),y
-x1,y1 = read_image(r"C:\Users\sdscit\Desktop\all\infil_crf","infil")
-x2,y2 = read_image(r"C:\Users\sdscit\Desktop\all\micro_crf","micro")
-x3,y3 = read_image(r"C:\Users\sdscit\Desktop\all\situ_crf","situ")
-filepath1 =  r"C:\Users\sdscit\Desktop\ct_imgs\model\densenet_169_06-03_all_crf"
+x1,y1 = read_image(os.path.join(inputpath, 'IAC'), "IAC")
+x2,y2 = read_image(os.path.join(inputpath, 'MIA'), "MIA")
+x3,y3 = read_image(os.path.join(inputpath, 'AIS'), "AIS")
+modelpath =  r"C:\Users\sdscit\Desktop\ct_imgs\model\densenet_169_06-03_all_crf"
 model = load_model(filepath1,custom_objects={'Scale': Scale})
 HEIGHT = 256
 WIDTH = 256
@@ -51,8 +53,8 @@ def returnCAM(feature_conv, weight_softmax, class_idx):
     
     return output_cam
 index = 0
-for i in x1[1007:]:
-    img_path = os.listdir(r"C:\Users\sdscit\Desktop\all\infil_crf")
+for i in x1:
+    img_path = os.listdir(os.path.join(inputpath, 'IAC'))
     probs_extractor = K.function([model.input], [model.output])
     probs = probs_extractor([np.expand_dims(i, 0)])[0]
     features_conv_extractor = K.function([model.input], [fianlconv.output])
@@ -64,12 +66,12 @@ for i in x1[1007:]:
     height, width, _ = i.shape
     heatmap = cv2.applyColorMap(cv2.resize(CAMs[0], (width, height)), cv2.COLORMAP_JET)
     result = heatmap * 0.5 + i* 0.5
-    cv2.imwrite(os.path.join(r"C:\Users\sdscit\Desktop\all\infil_cam",img_path[index][:-4]+'_cam.jpg'), result)
-    cv2.imwrite(os.path.join(r"C:\Users\sdscit\Desktop\all\infil_cam",img_path[index][:-4]+'_heatmap.jpg'), heatmap)
+    cv2.imwrite(os.path.join(os.path.join(outputpath, 'IAC'),img_path[index][:-4]+'_cam.jpg'), result)
+    cv2.imwrite(os.path.join(os.path.join(outputpath, 'IAC'),img_path[index][:-4]+'_heatmap.jpg'), heatmap)
     index+=1
 index = 0
 for i in x2:
-    img_path = os.listdir(r"C:\Users\sdscit\Desktop\all\micro_crf")
+    img_path = os.listdir(os.path.join(inputpath, 'MIA'))
     probs_extractor = K.function([model.input], [model.output])
     probs = probs_extractor([np.expand_dims(i, 0)])[0]
     features_conv_extractor = K.function([model.input], [fianlconv.output])
@@ -81,12 +83,12 @@ for i in x2:
     height, width, _ = i.shape
     heatmap = cv2.applyColorMap(cv2.resize(CAMs[0], (width, height)), cv2.COLORMAP_JET)
     result = heatmap * 0.5 + i* 0.5
-    cv2.imwrite(os.path.join(r"C:\Users\sdscit\Desktop\all\micro_cam",img_path[index][:-4]+'_cam.jpg'), result)
-    cv2.imwrite(os.path.join(r"C:\Users\sdscit\Desktop\all\micro_cam",img_path[index][:-4]+'_heatmap.jpg'), heatmap)
+    cv2.imwrite(os.path.join(os.path.join(outputpath, 'MIA'),img_path[index][:-4]+'_cam.jpg'), result)
+    cv2.imwrite(os.path.join(os.path.join(outputpath, 'MIA'),img_path[index][:-4]+'_heatmap.jpg'), heatmap)
     index+=1
 index = 0
 for i in x3:
-    img_path = os.listdir(r"C:\Users\sdscit\Desktop\all\situ_crf")
+    img_path = os.listdir(os.path.join(inputpath, 'AIS'))
     probs_extractor = K.function([model.input], [model.output])
     probs = probs_extractor([np.expand_dims(i, 0)])[0]
     features_conv_extractor = K.function([model.input], [fianlconv.output])
@@ -98,6 +100,6 @@ for i in x3:
     height, width, _ = i.shape
     heatmap = cv2.applyColorMap(cv2.resize(CAMs[0], (width, height)), cv2.COLORMAP_JET)
     result = heatmap * 0.5 + i* 0.5
-    cv2.imwrite(os.path.join(r"C:\Users\sdscit\Desktop\all\situ_cam",img_path[index][:-4]+'_cam.jpg'), result)
-    cv2.imwrite(os.path.join(r"C:\Users\sdscit\Desktop\all\situ_cam",img_path[index][:-4]+'_heatmap.jpg'), heatmap)
+    cv2.imwrite(os.path.join(os.path.join(outputpath, 'AIS'),img_path[index][:-4]+'_cam.jpg'), result)
+    cv2.imwrite(os.path.join(os.path.join(outputpath, 'AIS'),img_path[index][:-4]+'_heatmap.jpg'), heatmap)
     index+=1
