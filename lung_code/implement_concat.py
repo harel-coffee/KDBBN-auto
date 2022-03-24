@@ -329,6 +329,8 @@ def softmax(x, axis=1):
 
 if __name__ == '__main__':
 
+    re_dir = './re'
+    target_dir = './mix'
     TRAIN = True
     img_rows, img_cols = 256, 256# Resolution of inputs
     channel = 3
@@ -349,9 +351,9 @@ if __name__ == '__main__':
 
 
     # representation data reading
-    x1,y1 = read_image(r"C:\Users\sdscit\Desktop\all\IAC","IAC")
-    x2,y2 = read_image(r"C:\Users\sdscit\Desktop\all\MIA","MIA")
-    x3,y3 = read_image(r"C:\Users\sdscit\Desktop\all\AIS","AIS")
+    x1,y1 = read_image(os.path.join(re_dir, 'IAC'), "IAC")
+    x2,y2 = read_image(os.path.join(re_dir, 'MIA'), "MIA")
+    x3,y3 = read_image(os.path.join(re_dir, 'AIS'), "AIS")
     x1_train, x1_test, y1_train, y1_test = train_test_split(x1, y1, test_size=0.3, random_state=20)
     x2_train, x2_test, y2_train, y2_test = train_test_split(x2, y2, test_size=0.3, random_state=20)
     x3_train, x3_test, y3_train, y3_test = train_test_split(x3, y3, test_size=0.3, random_state=20)
@@ -360,9 +362,9 @@ if __name__ == '__main__':
     x_test = np.concatenate((x1_test,x2_test,x3_test))
     y_test  = np.concatenate((y1_test,y2_test,y3_test))
     # rebalance data reading
-    x1m,y1m = read_image(r"C:\Users\sdscit\Desktop\mix\IAC","IAC")
-    x2m,y2m = read_image(r"C:\Users\sdscit\Desktop\mix\MIA","MIA")
-    x3m,y3m = read_image(r"C:\Users\sdscit\Desktop\mix\AIS","AIS")
+    x1m,y1m = read_image(os.path.join(target_dir, 'IAC'), "IAC")
+    x2m,y2m = read_image(os.path.join(target_dir, 'MIA'), "MIA")
+    x3m,y3m = read_image(os.path.join(target_dir, 'AIS'), "AIS")
     x1_trainm, x1_testm, y1_trainm, y1_testm = train_test_split(x1m, y1m, test_size=0.3, random_state=20)
     x2_trainm, x2_testm, y2_trainm, y2_testm = train_test_split(x2m, y2m, test_size=0.3, random_state=20)
     x3_trainm, x3_testm, y3_trainm, y3_testm = train_test_split(x3m, y3m, test_size=0.3, random_state=20)
@@ -410,7 +412,7 @@ if __name__ == '__main__':
         model.compile(optimizer=sgd, loss=[losses.categorical_crossentropy,losses.categorical_crossentropy], loss_weights=[0.5,0.5], metrics=['accuracy'])
         model.fit_generator([x_train_gen,x_res_gen],
                       batch_size=batch_size,
-                      nb_epoch=100,
+                      nb_epoch=nb_epoch,
                       shuffle=True,
                       verbose=2,
                       validation_data=([x_test_gen,x_test_gen]),
