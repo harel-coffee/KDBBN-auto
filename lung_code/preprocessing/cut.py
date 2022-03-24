@@ -51,7 +51,7 @@ def cutcr(img):
 #img = cutcr('861433-1_1.jpg')
 #cv2.imwrite('cut.jpg', img)
 
-data_dir = '/Users/liuyin/Downloads/new'
+re_dir = '/Users/liuyin/Downloads/re'
 cut_dir = '/Users/liuyin/Downloads/cutwhite/cutsmall/second'
 
 classlist = os.listdir(data_dir)
