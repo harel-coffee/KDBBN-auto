@@ -9,7 +9,8 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
 import tensorflow as tf
 from sklearn.cluster import KMeans
 #tf.compat.v1.disable_eager_execution()
-
+inputpath = './re'
+outputpath = './gradcam'
 label_dict = {"IAC":0,"MIA":1,"AIS":2}
 def read_image(path,label_name):
         img_path = os.listdir(path)
@@ -21,13 +22,13 @@ def read_image(path,label_name):
             data.append(img)
             y = np.append(y,label_dict[label_name])
         return np.array(data),y
-x1,y1 = read_image(r"C:\Users\sdscit\Desktop\allROI\IAC","IAC")
-x2,y2 = read_image(r"C:\Users\sdscit\Desktop\allROI\MIA","MIA")
-x3,y3 = read_image(r"C:\Users\sdscit\Desktop\allROI\AIS","AIS")
-filepath1 =  r"C:\Users\sdscit\Desktop\ct_imgs\model\densenet_169_04-02_allROI_revise"
+x1,y1 = read_image(os.path.join(inputpath, 'IAC'), "IAC")
+x2,y2 = read_image(os.path.join(inputpath, 'MIA'), "MIA")
+x3,y3 = read_image(os.path.join(inputpath, 'AIS'), "AIS")
+modelpath =  r"C:\Users\sdscit\Desktop\ct_imgs\model\densenet_169_04-02_allROI_revise"
 model = load_model(filepath1,custom_objects={'Scale': Scale})
 for image in x1:
-    img_path = os.listdir(r"C:\Users\sdscit\Desktop\allROI\IAC")
+    img_path = os.listdir(os.path.join(inputpath, 'IAC'))
     image = np.expand_dims(image, axis=0)
     preds = model.predict(image)
     i = np.argmax(preds[0])
@@ -36,8 +37,31 @@ for image in x1:
     (heatmap, output) = cam.overlay_heatmap(heatmap, image, alpha=0.5)
     cv2.rectangle(output, (0, 0), (340, 40), (0, 0, 0), -1)
     output = np.vstack([image, heatmap, output])
-    cv2.imshow("Output", output)
-    cv2.waitKey(0)
+    cv2.imwrite(os.path.join(os.path.join(outputpath, 'IAC'),img_path[index][:-4]+'_gradcam.jpg'), output)
+
+for image in x2:
+    img_path = os.listdir(os.path.join(inputpath, 'MIA'))
+    image = np.expand_dims(image, axis=0)
+    preds = model.predict(image)
+    i = np.argmax(preds[0])
+    cam = GradCAM(model, i,'conv5_32_x2')
+    heatmap = cam.compute_heatmap(image)
+    (heatmap, output) = cam.overlay_heatmap(heatmap, image, alpha=0.5)
+    cv2.rectangle(output, (0, 0), (340, 40), (0, 0, 0), -1)
+    output = np.vstack([image, heatmap, output])
+    cv2.imwrite(os.path.join(os.path.join(outputpath, 'MIA'),img_path[index][:-4]+'_gradcam.jpg'), output)
+
+for image in x3:
+    img_path = os.listdir(os.path.join(inputpath, 'AIS'))
+    image = np.expand_dims(image, axis=0)
+    preds = model.predict(image)
+    i = np.argmax(preds[0])
+    cam = GradCAM(model, i,'conv5_32_x2')
+    heatmap = cam.compute_heatmap(image)
+    (heatmap, output) = cam.overlay_heatmap(heatmap, image, alpha=0.5)
+    cv2.rectangle(output, (0, 0), (340, 40), (0, 0, 0), -1)
+    output = np.vstack([image, heatmap, output])
+    cv2.imwrite(os.path.join(os.path.join(outputpath, 'AIS'),img_path[index][:-4]+'_gradcam.jpg'), output)
 
 #for i in x2:
 #    img_path = os.listdir(r"C:\Users\sdscit\Desktop\allROI\MIA")
