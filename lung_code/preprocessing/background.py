@@ -117,6 +117,18 @@ def change_special(src, masko):
 
 data_dir2 = '/Users/liuyin/Downloads/predata/ROI/black'
 data_dir3 = '/Users/liuyin/Downloads/predata/ROI/white'
+
+import argparse
+parser = argparse.ArgumentParser(description='argparse')
+parser.add_argument('--datadir2', '-d2')
+parser.add_argument('--datadir3', '-d3')
+args = parser.parse_args()
+
+if not os.path.exists(data_dir2):
+    data_dir2 = args.datadir2
+
+if not os.path.exists(data_dir3):
+    data_dir3 = args.datadir3
 '''
 src = cv2.imread('back5.jpg', cv2.IMREAD_GRAYSCALE)
 maske, _ = exactmask(src)
