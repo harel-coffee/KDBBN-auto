@@ -11,6 +11,19 @@ from sklearn.cluster import KMeans
 #tf.compat.v1.disable_eager_execution()
 inputpath = './re'
 outputpath = './gradcam'
+
+import argparse
+parser = argparse.ArgumentParser(description='argparse')
+parser.add_argument('--inputpath', '-i')
+parser.add_argument('--outputpath', '-o')
+args = parser.parse_args()
+
+if not os.path.exists(inputpath):
+    inputpath = args.inputpath
+
+if not os.path.exists(outputpath):
+    outputpath = args.outputpath
+
 label_dict = {"IAC":0,"MIA":1,"AIS":2}
 def read_image(path,label_name):
         img_path = os.listdir(path)
