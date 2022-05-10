@@ -24,6 +24,27 @@ file_dir1 = './data_one'
 file_dir2 = './data_4in1'
 metadata = './dataset1_metadata.csv'
 re_dir = './re'
+
+import argparse
+parser = argparse.ArgumentParser(description='argparse')
+parser.add_argument('--metadata', '-m')
+parser.add_argument('--filedir1', '-f1')
+parser.add_argument('--filedir2', '-f2')
+parser.add_argument('--redir', '-r')
+args = parser.parse_args()
+
+if not os.path.exists(metadata):
+    metadata = args.metadata
+
+if not os.path.exists(filedir1):
+    filedir1 = args.filedir1
+
+if not os.path.exists(filedir2):
+    filedir2 = args.filedir2
+    
+if not os.path.exists(redir):
+    redir = args.redir
+    
 df = pd.read_csv(metadata)
 for id in os.listdir(file_dir1):
     id_dir = os.path.join(file_dir1, id)
