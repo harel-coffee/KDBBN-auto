@@ -54,6 +54,23 @@ def cutcr(img):
 re_dir = '/Users/liuyin/Downloads/re'
 cut_dir = '/Users/liuyin/Downloads/cutwhite/cutsmall/second'
 
+import argparse
+parser = argparse.ArgumentParser(description='argparse')
+parser.add_argument('--redir', '-r')
+parser.add_argument('--cutdir', '-c')
+parser.add_argument('--miu', '-m')
+parser.add_argument('--miut', '-mt')
+args = parser.parse_args()
+    
+if not os.path.exists(re_dir):
+    re_dir = args.redir
+if not os.path.exists(cut_dir):
+    cut_dir = args.cutdir
+if args.miu:
+    miu = args.miu
+if args.miut:
+    miut = args.miut
+
 classlist = os.listdir(data_dir)
 for cla in classlist:
     class_data_dir = os.path.join(data_dir, cla)
