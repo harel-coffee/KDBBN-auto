@@ -24,6 +24,24 @@ def del_emp_dir(path):
 path = "/Users/liuyin/Documents/medicalimage/data/AI-CT/"
 resultpath1 = "/Users/liuyin/Documents/medicalimage/data/manCT/one"
 resultpath2 = "/Users/liuyin/Documents/medicalimage/data/manCT/4in1"
+
+import argparse
+parser = argparse.ArgumentParser(description='argparse')
+parser.add_argument('--path', '-p')
+parser.add_argument('--resultpath1', '-r1')
+parser.add_argument('--resultpath2', '-r2')
+args = parser.parse_args()
+
+if not os.path.exists(path):
+    path = args.path
+
+if not os.path.exists(resultpath1):
+    resultpath1 = args.resultpath1
+
+if not os.path.exists(resultpath2):
+    resultpath2 = args.resultpath2
+
+
 list = os.listdir(path)
 imglist = []
 
