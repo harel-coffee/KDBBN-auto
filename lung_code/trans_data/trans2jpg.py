@@ -36,13 +36,13 @@ args = parser.parse_args()
 if not os.path.exists(metadata):
     metadata = args.metadata
 
-if not os.path.exists(filedir1):
+if not os.path.exists(file_dir1):
     file_dir1 = args.filedir1
 
-if not os.path.exists(filedir2):
+if not os.path.exists(file_dir2):
     file_dir2 = args.filedir2
     
-if not os.path.exists(redir):
+if not os.path.exists(re_dir):
     re_dir = args.redir
     
 df = pd.read_csv(metadata)
