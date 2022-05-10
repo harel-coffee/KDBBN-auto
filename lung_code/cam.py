@@ -15,6 +15,19 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
 label_dict = {"IAC":0,"MIA":1,"AIS":2}
 inputpath = './re'
 outputpath = './cam'
+
+import argparse
+parser = argparse.ArgumentParser(description='argparse')
+parser.add_argument('--inputpath', '-i')
+parser.add_argument('--outputpath', '-o')
+args = parser.parse_args()
+
+if not os.path.exists(inputpath):
+    inputpath = args.inputpath
+
+if not os.path.exists(outputpath):
+    outputpath = args.outputpath
+
 def read_image(path,label_name):
         img_path = os.listdir(path)
         data = []
