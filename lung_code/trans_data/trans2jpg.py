@@ -37,13 +37,13 @@ if not os.path.exists(metadata):
     metadata = args.metadata
 
 if not os.path.exists(filedir1):
-    filedir1 = args.filedir1
+    file_dir1 = args.filedir1
 
 if not os.path.exists(filedir2):
-    filedir2 = args.filedir2
+    file_dir2 = args.filedir2
     
 if not os.path.exists(redir):
-    redir = args.redir
+    re_dir = args.redir
     
 df = pd.read_csv(metadata)
 for id in os.listdir(file_dir1):
