@@ -29,6 +29,39 @@ if __name__ == "__main__":
     data_dir6 = 'C:\\Users\\sdscit\\Desktop\\miu3'
     target_dir = 'C:\\Users\\sdscit\\Desktop\\mix'
     beta1, beta2, beta3, beta4, beta5, beta6 = 0.2, 0.2, 0.2, 0.15, 0.15, 0.1
+    
+    import argparse
+    parser = argparse.ArgumentParser(description='argparse')
+    parser.add_argument('--targetdir', '-t')
+    parser.add_argument('--datadir1', '-d1')
+    parser.add_argument('--datadir2', '-d2')
+    parser.add_argument('--datadir3', '-d3')
+    parser.add_argument('--datadir4', '-d4')
+    parser.add_argument('--datadir5', '-d5')
+    parser.add_argument('--datadir6', '-d6')
+    args = parser.parse_args()
+
+    if not os.path.exists(target_dir):
+        target_dir = args.targetdir
+
+    if not os.path.exists(data_dir1):
+        data_dir1 = args.datadir1
+
+    if not os.path.exists(data_dir2):
+        data_dir2 = args.datadir2
+        
+    if not os.path.exists(data_dir3):
+        data_dir3 = args.datadir3
+        
+    if not os.path.exists(data_dir4):
+        data_dir4 = args.datadir4
+        
+    if not os.path.exists(data_dir5):
+        data_dir5 = args.datadir5
+        
+    if not os.path.exists(data_dir6):
+        data_dir6 = args.datadir6
+
 
     selected1 = sampler(data_dir1, beta1)
     selected2 = sampler(data_dir2, beta2)
