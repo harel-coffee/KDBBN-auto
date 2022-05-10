@@ -44,6 +44,15 @@ def crop4(path, filename):
     sitk.WriteImage(out4, result4)
 
 path = "/Users/liuyin/Documents/medicalimage/data/manCT/4in1"
+
+import argparse
+parser = argparse.ArgumentParser(description='argparse')
+parser.add_argument('--path', '-p')
+args = parser.parse_args()
+
+if not os.path.exists(path):
+    path = args.path
+    
 dirlist = os.listdir(path)
 for dir in dirlist:
     print(dir)
