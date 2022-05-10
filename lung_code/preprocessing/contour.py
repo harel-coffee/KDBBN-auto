@@ -44,6 +44,20 @@ def SROI(img, roi_path):
 
 data_dir2 = './black'
 re_dir = './re'
+
+import argparse
+parser = argparse.ArgumentParser(description='argparse')
+parser.add_argument('--redir', '-r')
+parser.add_argument('--datadir2', '-d')
+args = parser.parse_args()
+
+if not os.path.exists(re_dir):
+    re_dir = args.redir
+
+if not os.path.exists(data_dir2):
+    data_dir2 = args.datadir2
+
+    
 for cla in os.listdir(re_dir):
     os.makedirs(os.path.join(data_dir2, cla), exist_ok=True)
     for file in os.listdir(os.path.join(re_dir, cla)
