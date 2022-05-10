@@ -331,6 +331,20 @@ if __name__ == '__main__':
 
     re_dir = './re'
     target_dir = './mix'
+    
+    import argparse
+    parser = argparse.ArgumentParser(description='argparse')
+    parser.add_argument('--redir', '-r')
+    parser.add_argument('--targetdir', '-t')
+    parser.add_argument('--modelpath', '-m')
+    args = parser.parse_args()
+
+    if not os.path.exists(target_dir):
+       target_dir = args.targetdir
+
+    if not os.path.exists(re_dir):
+        re_dir = args.redir
+    
     TRAIN = True
     img_rows, img_cols = 256, 256# Resolution of inputs
     channel = 3
@@ -424,6 +438,10 @@ if __name__ == '__main__':
     else:
         # predict
         modelpath = os.listdir(r'C:\Users\sdscit\Desktop\ct_imgs\model')
+        
+        if not os.path.exists(modelpath):
+           modelpath = args.modelpath
+    
         for i in modelpath:
             if i[-4:] == 'hdf5':
                 model = model.load_model(os.path.join(r'C:\Users\sdscit\Desktop\ct_imgs\model',i),custom_objects={'Scale': Scale})
