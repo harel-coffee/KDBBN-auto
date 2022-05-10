@@ -12,6 +12,19 @@ from pydensecrf.utils import unary_from_labels, create_pairwise_bilateral, creat
 import os
 re_dir = './re'
 data_dir1 = './crf'
+
+import argparse
+parser = argparse.ArgumentParser(description='argparse')
+parser.add_argument('--redir', '-r')
+parser.add_argument('--datadir1', '-d1')
+args = parser.parse_args()
+
+if not os.path.exists(re_dir):
+    re_dir = args.redir
+
+if not os.path.exists(data_dir1):
+    data_dir1 = args.datadir1
+    
 crf_list = []
 for cla in os.listdir(re_dir):
     for i in os.listdir(os.path.join(re_dir, cla)):
