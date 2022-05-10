@@ -130,6 +130,24 @@ if __name__ == "__main__":
     valpath = './Dataset2'
     unpath = './Dataset4'
     Tmodelpath = 'C:\Users\sdscit\Desktop\ct_imgs\best_model\model1.hdf5'
+    
+    import argparse
+    parser = argparse.ArgumentParser(description='argparse')
+    parser.add_argument('--valpath', '-v')
+    parser.add_argument('--unpath', '-u')
+    parser.add_argument('--Tmodelpath', '-m')
+    args = parser.parse_args()
+
+if not os.path.exists(valpath):
+    valpath = args.valpath
+
+if not os.path.exists(unpath):
+    unpath = args.unpath
+
+if not os.path.exists(Tmodelpath):
+    Tmodelpath = args.Tmodelpath
+    
+    
     x1,y1 = read_image(os.path.join(valpath, 'IAC'), "IAC")
     x2,y2 = read_image(os.path.join(valpath, 'MIA'), "MIA")
     x3,y3 = read_image(os.path.join(valpath, 'AIS'), "AIS")
